@@ -38,5 +38,3 @@ JAY is case-sensitive, so capitalization affects how we classify a word:
 - `boolean` is a keyword, but `bool` is an identifier.
 - `true` and `false` are Boolean literals, but `True` and `False` are identifiers.
 - Invalid token text, such as `3a` or a single `&`, is reported as `Other`.
-
-We describe our changes to the starter code in [CHANGES.md](CHANGES.md).
