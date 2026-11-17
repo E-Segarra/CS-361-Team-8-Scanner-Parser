@@ -1,8 +1,9 @@
 # CS 361 Team 8 Scanner and Parser
 
-We implemented the JAY scanner to identify tokens and report each token’s number, type, and value in the required format. This implementation covers lexical analysis. We retained the supplied abstract syntax classes in `Program.java`.
+We completed the JAY scanner using the provided starter code. It reads a source file and prints each token’s number, type, and value in the required format. This part of our project handles lexical analysis. We kept the supplied `Program.java` unchanged.
 
 ## Compile and run
+
 From the repository folder, run:
 
 ```sh
@@ -10,30 +11,32 @@ javac Token.java TokenStream.java ScannerDemo.java
 java ScannerDemo
 ```
 
-We use `src/prog1.jay` as the test input. To scan another file, update `file1` in `ScannerDemo.java` and recompile.
+The scanner reads `src/prog1.jay`. To use a different input file, change `file1` in `ScannerDemo.java` and compile again.
 
-## Testing and verification
+## Testing
 
-We tested keywords, identifiers, literals, separators, operators, and lexical errors. We verified that all **95 token entries** match the expected types and values recorded in `tests/expected-output.txt`.
+We tested keywords, identifiers, literals, separators, and operators. We also included invalid input to check how the scanner handles lexical errors.
 
-To reproduce the comparison, run:
+Our test file produces **95 tokens**. We compared their types and values with `tests/expected-output.txt`, and all entries matched.
+
+To check the results, run:
 
 ```sh
 java ScannerDemo > tests/actual-output.txt
 diff -u tests/expected-output.txt tests/actual-output.txt
 ```
 
-No output from `diff` confirms an exact match.
+If `diff` prints nothing, the two files match.
 
-Our test file includes standalone tokens and intentional lexical errors to check the scanner’s behavior.
+The test file contains individual token examples, intentional errors, and a short JAY program.
 
-## Token classification
+## Examples
 
-We follow JAY’s case-sensitive lexical rules:
+JAY is case-sensitive, so capitalization affects how we classify a word:
 
-- `while` is a keyword; `While` is an identifier.
-- `boolean` is a keyword; `bool` is an identifier.
-- `true` and `false` are Boolean literals; `True` and `False` are identifiers.
-- Invalid tokens are classified as `Other`.
+- `while` is a keyword, but `While` is an identifier.
+- `boolean` is a keyword, but `bool` is an identifier.
+- `true` and `false` are Boolean literals, but `True` and `False` are identifiers.
+- Invalid token text, such as `3a` or a single `&`, is reported as `Other`.
 
-We document our changes to the starter files in [CHANGES.md](CHANGES.md).
+We describe our changes to the starter code in [CHANGES.md](CHANGES.md).
