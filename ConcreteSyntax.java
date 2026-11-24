@@ -36,7 +36,7 @@ public class ConcreteSyntax {
 	}
 
 	// Implementation of the Recursive Descent Parser
-	public Program program() { // Program --> main '{' Declarations Statements '}'
+	public Program program() { // Program --> void main() '{' Declarations Statements '}'
 
 		//COMPLETED
 		String[] header = {"void", "main", "(", ")", "{"}; // header of the program
@@ -74,7 +74,7 @@ return p;
 		match(";");
 	}
 
-	private Type type() { // Type --> integer | boolean
+	private Type type() { // Type --> int | boolean
 		
 		// COMPLETED
 		Type t = null;
@@ -244,7 +244,7 @@ return p;
 		return e;
 	}
 
-	private Expression relation() { // Relation --> Addition [ < | <= | > | >= | == | <> ] Addition }*
+	private Expression relation() { // Relation --> Addition [ < | <= | > | >= | == | != ] Addition }*
 		
 		Binary b;
 		Expression e;
