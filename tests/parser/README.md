@@ -6,7 +6,7 @@ We decided the expected result from the grammar before running each test. The `v
 
 ## Run the tests
 
-From the `syntax` folder, with a JDK and Python 3 installed:
+From the repository root, with a JDK and Python 3 installed:
 
 ```sh
 python3 tests/parser/run_tests.py
