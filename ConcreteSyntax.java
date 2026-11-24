@@ -3,19 +3,13 @@
 // Implementation of the Recursive Descent Parser algorithm
 
 //  Each method corresponds to a concrete syntax grammar rule, 
-// which appears as a comment at the beginning of the method.
-
-// This code DOES NOT implement a parser for KAY. You have to complete
-// the code and also make sure it implements a parser for KAY - not something
-// else.
+//  which appears as a comment next to the beginning of the method.
 
 public class ConcreteSyntax {
-
-	// READ THE COMPLETE FILE FIRST
 	
 	// Instance variables
 	public Token token; // current token that is considered from the input stream
-	public TokenStream input; // stream of tokens generated in by the lexical analysis
+	public TokenStream input; // stream of tokens for supplying tokens to the recursive descent parser, generated in by the lexical analysis.
 
 	// Constructor
 	public ConcreteSyntax(TokenStream ts) { // Open the source program
@@ -42,67 +36,83 @@ public class ConcreteSyntax {
 	}
 
 	// Implementation of the Recursive Descent Parser
+	public Program program() { // Program --> main '{' Declarations Statements '}'
 
-	public Program program() {
-		// TODO TO BE COMPLETED 
-		// Program --> main '{' Declarations Statements '}'
-		String[] header = { };
+		//COMPLETED
+		String[] header = {"void", "main", "(", ")", "{"}; // header of the program
 		Program p = new Program();
-		for (int i = 0; i < header.length; i++)
-			// bypass " main { "
-			match(header[i]);
-		return p;
+
+        for (int i = 0; i < header.length; i++) 
+            match(header[i]);
+
+		// call methods, execute them, and store their returned results.
+   		p.decpart = declarationS();
+    	p.body = statements();
+
+   	 	match("}");
+				if (!input.isEndofFile() || !token.getValue().equals(""))
+			throw new RuntimeException(SyntaxError("end of file"));
+return p;
 	}
 
-	private Declarations declarations() {
-		// TODO TO BE COMPLETED 
-		// Declarations --> { Declaration }*
+	private Declarations declarationS() { // Declarations --> { Declaration }*
+		
+		//COMPLETED 
+		// if the declarion has multiples forms but reserves the token structure:
 		Declarations ds = new Declarations();
 		while (token.getValue().equals("int")
-				|| token.getValue().equals("bool")) {
+				|| token.getValue().equals("boolean")) {
 			declaration(ds);
 		}
 		return ds;
 	}
 
-	private void declaration(Declarations ds) {
-		// Declaration --> Type Identifiers ;
+	private void declaration(Declarations ds) { // Declaration --> Type Identifiers ;
+
 		Type t = type();
 		identifiers(ds, t);
 		match(";");
 	}
 
-	private Type type() {
-		// TODO TO BE COMPLETED
-		// Type --> integer | bool
+	private Type type() { // Type --> integer | boolean
+		
+		// COMPLETED
 		Type t = null;
+
 		if (token.getValue().equals("int"))
+			t = new Type(token.getValue()); //value "int" gets stored inside a new Type object, and the variable t holds a reference to that object.
+		else if (token.getValue().equals("boolean"))
 			t = new Type(token.getValue());
-		else if (token.getValue().equals("bool"))
-			t = new Type(token.getValue());
+
 		else
 			throw new RuntimeException(SyntaxError("int | boolean"));
-		token = input.nextToken(); // pass over the type
+
+		token = input.nextToken(); // moves the parser to the next token in the source code.
 		return t;
 	}
 
-	private void identifiers(Declarations ds, Type t) {
-		// Identifiers --> Identifier { , Identifier }*
+	private void identifiers(Declarations ds, Type t) { // Identifiers --> Identifier { , Identifier }*
+		
 		Declaration d = new Declaration(); // first declaration
-		d.t = t; // its type
+
+		d.t = t; //assigning the previously recognized type to the declaration.
+
 		if (token.getType().equals("Identifier")) {
-			d.v = new Variable();
-			d.v.id = token.getValue(); // its value
+			d.v = new Variable(); 
+			d.v.id = token.getValue(); // stores the variable's name 
 			ds.addElement(d);
+
 			token = input.nextToken();
+
 			while (token.getValue().equals(",")) {
 				d = new Declaration(); // next declaration
-				d.t = t; // its type
+				d.t = t; // to assign the same type we saved earlier.
 				token = input.nextToken();
+
 				if (token.getType().equals("Identifier")) {
-					d.v = new Variable(); // its value
-					d.v.id = token.getValue();
-					ds.addElement(d);
+					d.v = new Variable(); 
+					d.v.id = token.getValue(); //stores the current identifier’s name ("y") inside that object.
+					ds.addElement(d); //adds the curretn declaration to the ds stream
 					token = input.nextToken(); // get "," or ";"
 				} else
 					throw new RuntimeException(SyntaxError("Identifier"));
@@ -111,8 +121,8 @@ public class ConcreteSyntax {
 			throw new RuntimeException(SyntaxError("Identifier"));
 	}
 
-	private Statement statement() {
-		// Statement --> ; | Block | Assignment | IfStatement | WhileStatement
+	private Statement statement() { // Statement --> ; | Block | Assignment | IfStatement | WhileStatement
+
 		Statement s = new Skip();
 		if (token.getValue().equals(";")) { // Skip
 			token = input.nextToken();
@@ -123,130 +133,216 @@ public class ConcreteSyntax {
 			match("}");
 		} else if (token.getValue().equals("if")) // IfStatement
 			s = ifStatement();
+
+			//COMPLETED
 		else if (token.getValue().equals("while")) {
-			// WhileStatement
-			// TODO TO BE COMPLETED
+			s = whileStatement();
 		} else if (token.getType().equals("Identifier")) { // Assignment
-			// TODO TO BE COMPLETED
+			s = assignment();
 		} else
 			throw new RuntimeException(SyntaxError("Statement"));
 		return s;
 	}
 
-	private Block statements() {
-		// Block --> '{' Statements '}'
+	private Block statements() { // Block --> '{' Statements '}'
+		
 		Block b = new Block();
-		while (!token.getValue().equals("}")) {
-			b.blockmembers.addElement(statement());
+		while (!token.getValue().equals("}")) { //continue parsing until the current token is "}"
+			b.blockmembers.addElement(statement()); //parses one statement from the token stream and returns a Statement object.
 		}
-		return b;
+		return b; //block with all its parsed statements
 	}
 
-	private Assignment assignment() {
-		// Assignment --> Identifier := Expression ;
+	private Assignment assignment() { // Assignment --> Identifier := Expression ;
+		
 		Assignment a = new Assignment();
+
+		//COMPLETED
 		if (token.getType().equals("Identifier")) {
-			// TODO TO BE COMPLETED
+			a.target = new Variable();
+			a.target.id = token.getValue();
+			token = input.nextToken();
+			match("=");
+			a.source = expression(); //Parse the expression and store its returned AST
+			match(";");
 		} else
 			throw new RuntimeException(SyntaxError("Identifier"));
 		return a;
 	}
 
-	private Expression expression() {
-		// Expression --> Conjunction { || Conjunction }*
+	private Conditional ifStatement() { // IfStatement --> if ( Expression ) Statement { else Statement }opt
+		
+		//COMPLETED
+		Conditional c = new Conditional();
+		match("if");
+		match("(");
+
+		c.test = expression(); // parse condition() and store its AST
+		match(")"); 
+
+		c.thenbranch = statement(); // parse the statement for the true branch
+		if (token.getValue().equals("else")) { // check whether optional else exists
+			match("else");
+			c.elsebranch = statement(); // Parse the false branch
+		}
+
+    return c;
+	}
+
+	private Loop whileStatement() { // WhileStatement --> while ( Expression ) Statement
+
+		//COMPLETED
+		Loop l = new Loop();
+		match("while");
+		match("(");
+
+		l.test = expression();
+		match(")");
+
+		l.body = statement();
+		return l;
+	}
+
+	private Expression expression() { // Expression --> Conjunction { || Conjunction }*
+		
 		Binary b;
 		Expression e;
+
 		e = conjunction();
+
 		while (token.getValue().equals("||")) {
 			b = new Binary();
-			b.term1 = e;
-			b.op = new Operator(token.getValue());
-			token = input.nextToken();
-			b.term2 = conjunction();
-			e = b;
+			b.term1 = e; //attach the previous AST as the left child of the new node
+
+			b.op = new Operator(token.getValue()); //represents the || operator in the AST
+
+			token = input.nextToken();//moves past || to the next token 
+			b.term2 = conjunction(); //parses the next right conjuction() as the right operand 
+			e = b; //update e to reference the new root of the AST constructed so far
 		}
-		return e;
+		return e; //root returned 
 	}
 
-	private Expression conjunction() {
-		// Conjunction --> Relation { && Relation }*
+	private Expression conjunction() { // Conjunction --> Relation { && Relation }*
+		
 		Binary b;
 		Expression e;
+
 		e = relation();
+
+		//COMPLETED
 		while (token.getValue().equals("&&")) {
 			b = new Binary();
-			// TODO TO BE COMPLETED
-			e = b;
+			b.term1 = e; //attach the previous AST as the left child of the new node
+
+			b.op = new Operator(token.getValue()); //stores the && operator in the AST
+
+			token = input.nextToken();
+			b.term2 = relation(); //parse the next relation() as the right operand
+			e = b; // updates e to reference the root of the complete AST.
 		}
 		return e;
 	}
 
-	private Expression relation() {
-		// Relation --> Addition [ < | <= | > | >= | == | <> ] Addition }*
+	private Expression relation() { // Relation --> Addition [ < | <= | > | >= | == | <> ] Addition }*
+		
 		Binary b;
 		Expression e;
+
 		e = addition();
-		// TODO TO BE COMPLETED
-		while (token.getValue().equals("<") || token.getValue().equals("<=")
+
+		//COMPLETED
+		while (token.getValue().equals("<") 
+				|| token.getValue().equals("<=")
+				|| token.getValue().equals(">")
 				|| token.getValue().equals(">=")
 				|| token.getValue().equals("==")
-				|| token.getValue().equals("<>")) {
+				|| token.getValue().equals("!=")) {
 			b = new Binary();
-			// TODO TO BE COMPLETED
+			b.term1 = e;
+
+			b.op = new Operator(token.getValue()); //store the relational operator
+
+			token = input.nextToken();
+			b.term2 = addition();
+			e = b;
+		}
+		return e; //return the completed AST
+	}
+
+	private Expression addition() { // Addition --> Term { [ + | - ] Term }*
+		
+		Binary b;
+		Expression e;
+
+		e = term();
+
+		//COMPLETED
+		while (token.getValue().equals("+") || token.getValue().equals("-")) {
+			b = new Binary();
+			b.term1 = e;
+
+			b.op = new Operator(token.getValue());
+
+			token = input.nextToken();
+			b.term2 = term();
 			e = b;
 		}
 		return e;
 	}
 
-	private Expression addition() {
-		// Addition --> Term { [ + | - ] Term }*
+	private Expression term() { // Term --> Negation { [ '*' | / ] Negation }*
+		
 		Binary b;
 		Expression e;
-		e = term();
-		while (token.getValue().equals("+") || token.getValue().equals("-")) {
-			// TODO TO BE COMPLETED
-		}
-		return e;
-	}
 
-	private Expression term() {
-		// Term --> Negation { [ '*' | / ] Negation }*
-		Binary b;
-		Expression e;
 		e = negation();
+
+		//COMPLETED 
 		while (token.getValue().equals("*") || token.getValue().equals("/")) {
 			b = new Binary();
-			// TODO TO BE COMPLETED
+			b.term1 = e;
+
+			b.op = new Operator(token.getValue()); //store the * or / operator
+				
+			token = input.nextToken();
+			b.term2 = negation();
 			e = b;
 		}
 		return e;
 	}
 
-	private Expression negation() {
-		// Negation --> { ! }opt Factor
+	private Expression negation() { // Negation --> { ! }opt Factor
+		
 		Unary u;
-		if (token.getValue().equals("!")) {
+		if (token.getValue().equals("!")) { //check whether the negation operator exists
 			u = new Unary();
-			u.op = new Operator(token.getValue());
+			u.op = new Operator(token.getValue()); //store the ! operator in the AST
+
 			token = input.nextToken();
-			u.term = factor();
-			return u;
+			u.term = factor(); //parses the factor and attach its AST as the operand
+			return u; 
 		} else
-			return factor();
+			return factor(); // if no negation exists, return the factor() AST directly
 	}
 
-	private Expression factor() {
-		// Factor --> Identifier | Literal | ( Expression )
-		Expression e = null;
+	private Expression factor() { // Factor --> Identifier | Literal | ( Expression )
+		
+		Expression e = null; 
+
 		if (token.getType().equals("Identifier")) {
-			Variable v = new Variable();
-			v.id = token.getValue();
+
+			Variable v = new Variable(); // create a Variable AST node
+			v.id = token.getValue(); //store the identifier's name
 			e = v;
 			token = input.nextToken();
+
 		} else if (token.getType().equals("Literal")) {
-			Value v = null;
+			Value v = null; 
+
 			if (isInteger(token.getValue()))
-				v = new Value((new Integer(token.getValue())).intValue());
+				v = new Value((new Integer(token.getValue())).intValue()); //convert the token into an integer Value
+
 			else if (token.getValue().equals("true"))
 				v = new Value(true);
 			else if (token.getValue().equals("false"))
@@ -255,34 +351,24 @@ public class ConcreteSyntax {
 				throw new RuntimeException(SyntaxError("Literal"));
 			e = v;
 			token = input.nextToken();
+
 		} else if (token.getValue().equals("(")) {
 			token = input.nextToken();
-			e = expression();
+			e = expression(); //recursively parses the expression and store its AST
 			match(")");
+
 		} else
 			throw new RuntimeException(SyntaxError("Identifier | Literal | ("));
 		return e;
 	}
 
-	private Conditional ifStatement() {
-		// IfStatement --> if ( Expression ) Statement { else Statement }opt
-		Conditional c = new Conditional();
-		// TODO TO BE COMPLETED
-		return c;
-	}
-
-	private Loop whileStatement() {
-		// WhileStatement --> while ( Expression ) Statement
-		Loop l = new Loop();
-		// TODO TO BE COMPLETED
-		return l;
-	}
-
 	private boolean isInteger(String s) {
-		boolean result = true;
+		boolean result = !s.isEmpty(); //rejects empty strings
+
 		for (int i = 0; i < s.length(); i++)
 			if ('0' > s.charAt(i) || '9' < s.charAt(i))
 				result = false;
+
 		return result;
 	}
 }
