@@ -1,6 +1,6 @@
 public class ParserDemo {
     public static void main(String[] args) {
-        String filename = "prog1.jay";
+        String filename = "src/prog1.jay";
 
         if (args.length > 0) {
             filename = args[0];
