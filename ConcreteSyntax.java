@@ -52,7 +52,7 @@ public class ConcreteSyntax {
    	 	match("}");
 				if (!input.isEndofFile() || !token.getValue().equals(""))
 			throw new RuntimeException(SyntaxError("end of file"));
-return p;
+	return p;
 	}
 
 	private Declarations declarationS() { // Declarations --> { Declaration }*
