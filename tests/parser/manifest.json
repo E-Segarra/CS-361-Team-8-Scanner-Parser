@@ -1,0 +1,230 @@
+[
+  {
+    "id": 1,
+    "file": "tests/parser/valid/T01_empty_program.jay",
+    "expected": "ACCEPT",
+    "purpose": "empty program"
+  },
+  {
+    "id": 2,
+    "file": "tests/parser/valid/T02_variable_declarations.jay",
+    "expected": "ACCEPT",
+    "purpose": "variable declarations"
+  },
+  {
+    "id": 3,
+    "file": "tests/parser/valid/T03_assignments.jay",
+    "expected": "ACCEPT",
+    "purpose": "assignments"
+  },
+  {
+    "id": 4,
+    "file": "tests/parser/valid/T04_arithmetic.jay",
+    "expected": "ACCEPT",
+    "purpose": "arithmetic"
+  },
+  {
+    "id": 5,
+    "file": "tests/parser/valid/T05_precedence_parentheses.jay",
+    "expected": "ACCEPT",
+    "purpose": "precedence parentheses"
+  },
+  {
+    "id": 6,
+    "file": "tests/parser/valid/T06_relational_logical.jay",
+    "expected": "ACCEPT",
+    "purpose": "relational logical"
+  },
+  {
+    "id": 7,
+    "file": "tests/parser/valid/T07_if_while_blocks.jay",
+    "expected": "ACCEPT",
+    "purpose": "if while blocks"
+  },
+  {
+    "id": 8,
+    "file": "tests/parser/invalid/T08_incorrect_header.jay",
+    "expected": "REJECT",
+    "purpose": "incorrect header"
+  },
+  {
+    "id": 9,
+    "file": "tests/parser/valid/T09_comma_declarations.jay",
+    "expected": "ACCEPT",
+    "purpose": "comma declarations"
+  },
+  {
+    "id": 10,
+    "file": "tests/parser/invalid/T10_while_missing_parentheses.jay",
+    "expected": "REJECT",
+    "purpose": "while missing parentheses"
+  },
+  {
+    "id": 11,
+    "file": "tests/parser/valid/T11_empty_nested_blocks.jay",
+    "expected": "ACCEPT",
+    "purpose": "empty nested blocks"
+  },
+  {
+    "id": 12,
+    "file": "tests/parser/valid/T12_repeated_add_subtract.jay",
+    "expected": "ACCEPT",
+    "purpose": "repeated add subtract"
+  },
+  {
+    "id": 13,
+    "file": "tests/parser/valid/T13_repeated_multiply_divide.jay",
+    "expected": "ACCEPT",
+    "purpose": "repeated multiply divide"
+  },
+  {
+    "id": 14,
+    "file": "tests/parser/valid/T14_repeated_logical.jay",
+    "expected": "ACCEPT",
+    "purpose": "repeated logical"
+  },
+  {
+    "id": 15,
+    "file": "tests/parser/valid/T15_nested_parentheses.jay",
+    "expected": "ACCEPT",
+    "purpose": "nested parentheses"
+  },
+  {
+    "id": 16,
+    "file": "tests/parser/valid/T16_nested_negation.jay",
+    "expected": "ACCEPT",
+    "purpose": "nested negation"
+  },
+  {
+    "id": 17,
+    "file": "tests/parser/valid/T17_nested_if_else_while.jay",
+    "expected": "ACCEPT",
+    "purpose": "nested if else while"
+  },
+  {
+    "id": 18,
+    "file": "tests/parser/valid/T18_combined_expression.jay",
+    "expected": "ACCEPT",
+    "purpose": "combined expression"
+  },
+  {
+    "id": 19,
+    "file": "tests/parser/invalid/T19_unsupported_type.jay",
+    "expected": "REJECT",
+    "purpose": "unsupported type"
+  },
+  {
+    "id": 20,
+    "file": "tests/parser/invalid/T20_incorrect_assignment.jay",
+    "expected": "REJECT",
+    "purpose": "incorrect assignment"
+  },
+  {
+    "id": 21,
+    "file": "tests/parser/invalid/T21_missing_close_parenthesis.jay",
+    "expected": "REJECT",
+    "purpose": "missing close parenthesis"
+  },
+  {
+    "id": 22,
+    "file": "tests/parser/invalid/T22_consecutive_negation.jay",
+    "expected": "REJECT",
+    "purpose": "consecutive negation"
+  },
+  {
+    "id": 23,
+    "file": "tests/parser/invalid/T23_else_without_if.jay",
+    "expected": "REJECT",
+    "purpose": "else without if"
+  },
+  {
+    "id": 24,
+    "file": "tests/parser/valid/T24_left_associativity.jay",
+    "expected": "ACCEPT",
+    "purpose": "left associativity"
+  },
+  {
+    "id": 25,
+    "file": "tests/parser/valid/T25_deep_parentheses.jay",
+    "expected": "ACCEPT",
+    "purpose": "deep parentheses"
+  },
+  {
+    "id": 26,
+    "file": "tests/parser/valid/T26_mixed_logical_precedence.jay",
+    "expected": "ACCEPT",
+    "purpose": "mixed logical precedence"
+  },
+  {
+    "id": 27,
+    "file": "tests/parser/valid/T27_parenthesized_negation.jay",
+    "expected": "ACCEPT",
+    "purpose": "parenthesized negation"
+  },
+  {
+    "id": 28,
+    "file": "tests/parser/valid/T28_chained_relations.jay",
+    "expected": "ACCEPT",
+    "purpose": "chained relations"
+  },
+  {
+    "id": 29,
+    "file": "tests/parser/valid/T29_dangling_else.jay",
+    "expected": "ACCEPT",
+    "purpose": "dangling else"
+  },
+  {
+    "id": 30,
+    "file": "tests/parser/valid/T30_nested_control.jay",
+    "expected": "ACCEPT",
+    "purpose": "nested control"
+  },
+  {
+    "id": 31,
+    "file": "tests/parser/valid/T31_multiple_declaration_groups.jay",
+    "expected": "ACCEPT",
+    "purpose": "multiple declaration groups"
+  },
+  {
+    "id": 32,
+    "file": "tests/parser/valid/T32_nested_blocks_skip.jay",
+    "expected": "ACCEPT",
+    "purpose": "nested blocks skip"
+  },
+  {
+    "id": 33,
+    "file": "tests/parser/valid/T33_whitespace.jay",
+    "expected": "ACCEPT",
+    "purpose": "whitespace"
+  },
+  {
+    "id": 34,
+    "file": "tests/parser/invalid/T34_declaration_after_statement.jay",
+    "expected": "REJECT",
+    "purpose": "declaration after statement"
+  },
+  {
+    "id": 35,
+    "file": "tests/parser/invalid/T35_declaration_inside_block.jay",
+    "expected": "REJECT",
+    "purpose": "declaration inside block"
+  },
+  {
+    "id": 36,
+    "file": "tests/parser/invalid/T36_incomplete_logical.jay",
+    "expected": "REJECT",
+    "purpose": "incomplete logical"
+  },
+  {
+    "id": 37,
+    "file": "tests/parser/invalid/T37_missing_arithmetic_operand.jay",
+    "expected": "REJECT",
+    "purpose": "missing arithmetic operand"
+  },
+  {
+    "id": 38,
+    "file": "tests/parser/invalid/T38_trailing_tokens.jay",
+    "expected": "REJECT",
+    "purpose": "trailing tokens"
+  }
+]

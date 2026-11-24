@@ -1,0 +1,3 @@
+void main() {
+    int x; boolean b; x = 7; b = true;
+}

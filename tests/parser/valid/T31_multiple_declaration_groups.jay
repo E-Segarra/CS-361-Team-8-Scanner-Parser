@@ -1,0 +1,3 @@
+void main() {
+    int a, b, c; boolean ready, done; a = 3; ready = a >= 2 && !false;
+}
